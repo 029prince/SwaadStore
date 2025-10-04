@@ -23,7 +23,7 @@ await connectDB();
 await connectCloudinary();
 
 // Setup CORS
-const allowedOrigins = ['http://localhost:5173','https://swaad-store-hggu.vercel.app'];
+const allowedOrigins = ['http://localhost:5173','https://swaad-store-hggu.vercel.app/'];
 
 app.use(cors({
   origin: function (origin, callback) {
