@@ -22,12 +22,15 @@ const port = process.env.PORT || 4000;
 await connectDB();
 await connectCloudinary();
 
-// Setup CORS
-const allowedOrigins = ['http://localhost:5173','https://swaad-store-hggu.vercel.app'];
+// ✅ Setup CORS
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://swaad-store-hggu.vercel.app',
+  'https://swaad-store.vercel.app'
+];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (e.g. mobile apps or curl)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -37,12 +40,12 @@ app.use(cors({
   credentials: true,
 }));
 
+// Stripe webhook route BEFORE express.json()
+app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
+
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-
-// Stripe webhook route must come BEFORE express.json
-app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
 
 // Routes
 app.get('/', (req, res) => res.send('API is Working'));
@@ -53,8 +56,7 @@ app.use('/api/address', addressRouter);
 app.use('/api/order', orderRouter);
 app.use('/api/user', userRouter);
 
-
 // Start server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on port ${port}`);
 });
