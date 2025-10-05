@@ -1,19 +1,13 @@
-import express from "express";
-import multer from "multer";
-import {
-  addProduct,
-  productList,
-  productById,
-  changeStock,
-} from "../controllers/productController.js";
-import authSeller from "../middlewares/authSeller.js";
+import express from 'express';
+import { upload } from '../configs/multer.js';
+import authSeller from '../middlewares/authSeller.js';
+import { addProduct, changeStock, productById, productList } from '../controllers/productController.js';
 
-const upload = multer({ dest: "uploads/" }); // temporary folder for images
-const router = express.Router();
+const productRouter = express.Router();
 
-router.post("/add", authSeller, upload.array("images"), addProduct);
-router.get("/list", productList);
-router.post("/id", productById);
-router.post("/stock", authSeller, changeStock);
+productRouter.post('/add', upload.array(["images"]), authSeller, addProduct);
+productRouter.get('/list', productList)
+productRouter.get('/id', productById)
+productRouter.post('/stock', authSeller, changeStock)
 
-export default router;
+export default productRouter;
