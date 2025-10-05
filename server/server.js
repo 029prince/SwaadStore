@@ -25,7 +25,7 @@ await connectCloudinary();
 
 // ✅ Setup CORS (allow frontend + backend domains)
 const allowedOrigins = [
-  'http://localhost:5173',
+  'http://localhost:5174',
   'https://swaad-store-hggu.vercel.app',
   'https://swaad-store.vercel.app'
 ];
